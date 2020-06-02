@@ -6,7 +6,7 @@
 
 ## 1. 다형성과 상속
 
-다형성은 한 객체가 여러 가지 모습ㄷ을 갖는다는 것을 의미한다.  
+다형성은 한 객체가 여러 가지 모습을 갖는다는 것을 의미한다.  
 즉, 다형성이란 한 객체가 여러 타입을 가질 수 있다는 것을 뜻한다.
 
 ```java
@@ -121,4 +121,32 @@ public class Employee {
 
 위 코드에서 Employee 클래스는 개별 지원들을 추상화한 결과물이 된다.  
 이 외에도 다양한 영역에서 다양한 수준의 추상화가 사용되기 때문에, 단순히 구현 클래스로부터 추상 타입을 이끌어 내는 것만이 추상화라고 오해하면 안된다.
+
+### 2.1 추상 타입과 실제 구현의 연결
+
+추상 타입과 실제 구현 클래스는 상속을 통해서 연결한다.  
+즉, 구현 클래스가 추상 타입을 상속받는 방법으로 둘을 연결하는 것이다.
+
+```java
+// createLogCollector()는 알맞은 구현 클래스의 객체를 생성
+LogCollector colletor = createLogCollector();
+collector.collect();
+```
+
+createLogCollector\(\)가 SocketLogReader 클래스의 객체를 생성하면  
+collector.collect\(\)는 SocketLogReader 타입의 collect\(\) 메서드를 실행하게 된다.
+
+각 하위 타입들은 모두 상위 타입은 LogCollector 인터페이스에 정의된 기능을 실제로 구현하는데, 이들 클래스들은 실제 구현을 제공한다는 의미에서 `콘트리트 클래스(concrete class)` 라고 부른다.
+
+### 2.2 추상 타입을 이용한 구현 교체의 유연함
+
+콘크리트 클래스를 직접 사용해도 문제가 없는데, 왜 추상 타입을 사용하는 것일까???
+
+```java
+// 콘크리트 클래스를 직접 사용하면 문제가 되나?
+SocketLogREader reader = new SocketLogReader();
+reader.collect();
+```
+
+네. 전혀 문제가 없다. **처음에는**
 
