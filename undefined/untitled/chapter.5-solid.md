@@ -159,7 +159,7 @@ ResponseSender 클래스 예제는 템플릿 패턴을 사용한 것이다. 템�
 
 ```kotlin
 public void drawCharacter(Character character) {
-  if(character instanceof Missile) {  // 타입 확인
+  if (character instanceof Missile) {  // 타입 확인
     Missile missile = (Missile) character; // 타입 다운 캐스팅
     missile.drawSpecific();
   } else {
@@ -187,7 +187,7 @@ public class Enemy extends Character {
   }
 
   public void draw() {
-    if(pathPattern == 1) {
+    if (pathPattern == 1) {
       x += 4;
     } else if(pathPattern == 2) {
       y += 10;
@@ -231,4 +231,237 @@ public class Enemy extends Character {
 
 개방 폐쇄 원칙은 변화가 예상되는 것을 추상화해서 변경의 유연함을 얻도록 해준다. 이 말은 변화되는 부분을 추상화하지 못하면 혹은 안하면 개방 폐쇄 원칙을 지킬 수 없게 되어 시간이 흐를수록 기능 변경이나 확장을 어렵게 만든다는 것을 뜻한다.  
 따라서 코드에 대한 변화 요구가 발생하면, 변화와 관련된 구현을 추상화해서 개방 폐쇄 원칙에 맞게 수정할 수 있는지 확인하는 습관을 갖도록 하자.
+
+## 3. 리스코프 치환 원칙\(Liskov Substitution Principle\)
+
+리스코프 치환 원칙은 개방 폐쇄 원칙을 받쳐 주는 다형성에 관한 원칙을 제공한다.
+
+> **상위 타입의 객체를 하위 타입의 객체로 치환해도 상위 타입을 사용하는 프로그램은 정상적으로 동작해야 한다.**
+
+상위 타입 SuperClass와 하위 타입 SubClass가 있다고 하자. 특정 메서드는 상위 타입인 SuperClass를 이용할 것이다.
+
+```java
+public void someMethod(SuperClass sc) {
+  sc.otherSomeMethod();
+}
+```
+
+someMethod\(\)는 상위 타입인 SuperClass 타입의 객체를 사용하고 있는데, 이 메서드에 다음과 같이 하위 타입의 객체를 전달해도 someMethod\(\)가 정상적으로 동작해야 한다는 것이 리스코프 치환 원칙이다.
+
+```java
+someMethod( new SubClass() );
+```
+
+리스코프 치환 원칙이 제대로 지켜지지 않으면 다형성에 기반한 개방 폐쇄 원칙 역시 지켜지지 않기 때문에, 리스코프 치환 원칙을 지키는 것은 매우 중요하다.
+
+### **3.1 리스코프 치환 원칙을 지키지 않을 때의 문제**
+
+리스코프 치환 원칙을 설명할 때 자주 사용되는 대표적인 예가 직사각형-정사각형 문제이다. 직사각형을 표현하기 위한 Rectangle 클래스는 가로와 세로 두 개의 값을 구하거나 수정하는 기능을 제공할 것이다.
+
+```java
+public class Rectangle {
+  private int width;
+  private int height;
+
+  public void setWidth(int width) {
+    this.width = width;
+  }
+
+  public void setHeight(int height) {
+    this.height = height;
+  }
+
+  public void getWidth() {
+    return width;
+  }
+
+  public void getHeight() {
+    return height;
+  }
+}
+```
+
+정사각형을 직사각형의 특수한 경우로 보고, 정사각형을 표현하기 위한 Square 클래스가 Rectangle 클래스를 상속받도록 구현을 했다고 하자. 정사각형은 가로와 세로가 모두 동일한 값을 가져야 하므로, Square 클래스는 Rectangle 클래스의 setWidth\(\) 메서드와 setHeight\(\) 메서드를 재정의해서 가로와 세로 값이 일치하도록 구현하였다.
+
+```java
+public class Square extends Rectangle {
+  @Override
+  public void setWidth(int width) {
+    super.setWidth(widht);
+    super.setHeight(widht);
+  }
+
+  @Override
+  public void setHeight(int height) {
+    super.setWidth(height);
+    super.setHeight(height);
+  }
+}
+```
+
+이제 높이와 폭을 비교해서 높이를 더 길게 만들어 주는 기능을 제공한다고 해보자.
+
+```java
+public void increaseHeight(Rectangle rec) {
+  if (rec.getHeight() <= rec.getWidth()) {
+    rec.setHeight(rec.getWidth() + 10);
+  }
+}
+```
+
+increaseHeight\(\) 메서드를 사용하는 코드는 increaseHeight\(\) 메서드 실행 후에 width보다 height 값이 더 크다고 가정할 것이다. 그런데, increaseHeight\(\) 메서드의 rec 파라미터로 Square 객체가 전달되면 이 가정은 깨진다. Square의 setHeight\(\) 메서드는 높이와 폭을 모두 같은 값으로 만들기 때문에 increaseHeight\(\) 메서드를 실행하더라도 높이가 폭보다 길어지지 않게 된다.
+
+이러한 문제를 해소하기 위해 increaseHeight\(\) 메서드에서 rec 파라미터의 실제 타입이 Square인 경우에는 이 기능을 실행하지 않도록 instanceof 연산자를 사용할 수 있을 것이다. 하지만, 앞서 봤듯이 __instanceof 연산자를 사용한다는 것 자체가 리스코프 치환 원칙 위반이 되고, 이는 increaseHeight\(\) 메서드가 Rectangle 확장에 열려 있지 않다는 것을 뜻한다.
+
+```java
+public void increaseHeight(Rectangle rec) {
+  if (rec instranceof Square) {
+    throw new CantSupportSquareException();
+  }
+
+  if (rec.getHeight() <= rec.getWidth()) {
+    rec.setHeight(rec.getWidth() + 10);
+  }
+}
+```
+
+개념상 정사각형은 높이와 폭이 같은 직사각형이므로, Rectangle 클래스를 상속받아 Square 클래스를 구현하는 것이 합리적으로 보일 수 있으나, 실제 프로그램에서는 이 둘을 상속 관계로 묶을 수 없다. increaseHeight\(\) 와 같은 기능이 필요하다면, 실제 구현에서는 Square 클래스는 Rectangle 클래스를 상속받아 구현하기 보다는 별개의 타입으로 구현해 주어야 한다.
+
+리스코프 치환 원칙을 어기는 또 다른 흔한 예는 상위 타입에서 지정한 리턴 값의 범위에 해당되지 않는 값을 하위 타입에서 리턴하는 것이다.
+
+예를 들어, 입력 스트림으로부터 데이터를 읽어와 출력 스트림에 복사해 주는 복사 기능 다음과 같이 구현될 것이다.
+
+```java
+public class CopyUtil {
+  public static void copy(InputStream is, OutputStream out) {
+    byte[] data = new byte[512];
+    int len = -1;
+
+    // InputStream.read() 메서드는 스트림의 끝에 도달하면 -1을 리턴
+    while ((len = is.read(data)) != -1) {
+      out.write(data, 0, len);
+    }
+  }
+}
+```
+
+InputStream의 read\(\) 메서드는 스트림의 끝에 도달해서 더 이상 데이터를 읽어올 수 없는 경우 -1을 리턴한다고 정의되어 있고, CopyUtil.copy\(\) 메서드는 이 규칙에 따라 is.read\(\)의 리턴 값이 -1이 아닐 때까지 반복해서 데이터를 읽어와 out에 쓴다.
+
+그러나 만약 InputStream을 상속한 하위 타입에서 read\(\) 메서드를 아래와 같이 구현한다면 어떻게 될까?
+
+```java
+public class SatanInputStream implements InputStream {
+  public int read(byte[] data) {
+    ...
+    return 0; // 데이터가 없을 때 0을 리턴하도록 구현
+  }
+}
+```
+
+SatanInputStream의 read\(\) 메서드는 데이터가 없을 때 0을 리턴하도록 구현하였다. SatanInputStream 객체의 사용자는 SatanInputStream 객체로 부터 데이터를 읽어 와서 파일에 저장하기 위해 다음과 같이 CopyUtil.copy\(\) 메서드를 사용할 것이다.
+
+```java
+InputStream is = new SatanInputStream(someData);
+OutputStream out = new FileOutputStream(filePath);
+CopyUtil.copy(is, out);
+```
+
+CopyUtil.copy\(\) 메서드는 InputStream의 read\(\) 메서드가 -1을 리턴할 때 반복문을 멈추도록 구현되어 있다. 그런데, SatanInputStream의 read\(\) 메서드는 데이터가 없더라도 -1을 리턴하지 않아, CopyUtil.copy\(\) 메서드는 무한루프를 돌면서 실행이 끝나지 않게 된다.
+
+결과적으로, 위와 같은 문제가 발생하는 이유는 SatanInputStream 타입의 객체가 상위 타입인 InputStream을 올바르게 대체하지 않기 때문이다. 즉, 리스코프 치환 원칙을 지키지 않았기 때문에 발생한 것이다.
+
+### **3.2 리스코프 치환 원칙은 계약과 확장에 대한 것**
+
+리스코프 치환 원칙은 기능의 명세에 대한 내용이다.
+
+앞서 직사각형-정사각형 문제 예에서 Rectangle 클래스의 setHeight\(\) 메서드는 사용자에게 다음과 같은 계약을 제공하고 있다.
+
+* 높이 값을 파라미터로 전달받은 값으로 변경한다.
+* 폭 값은 변경되지 않는다.
+
+setHeight\(\) 메서드를 호출하는 코드는 높이 값만 변경될 뿐 폭은 바뀌지 않을 거라고 가정하는데, Square 클래스의 setHeight\(\) 메서드는 높이와 폭을 함께 변경한다. 따라서 setHeight\(\) 메서드를 사용하는 코드는 전혀 상상하지 못했던 결과로 인해 예상과 달리 비정상적으로 동작할 수 있다.
+
+기능 실행의 계약과 관련해서 흔히 발생하는 위반 사례로는 다음과 같은 것들이 있다.
+
+> * 명시된 명세에서 벗어난 값을 리턴한다.
+> * 명시된 명세에서 벗어난 익셉션을 발생한다.
+> * 명시된 명세에서 벗어난 기능을 수행한다.
+
+하위 타입이 명세에서 벗어난 동작을 하게 되면, 이 명세에 기반해서 구현한 코드는 비정상적으로 동작할 수 있기 때문에, 하위 타입은 상위 타입에서 정의한 명세를 벗어나지 않는 범위에서 구현해야 한다.
+
+**리스코프 치환 원칙은 확장에 대한 것이다. 리스코프 치환 원칙을 어기면 개방 폐쇄 원칙을 어길 가능성이 높아진다.**
+
+간단하게 예를 살펴보자. 상품에 쿠폰을 적용해서 할인되는 액수를 구해 주는 기능을 구현할 경우, 다음 코드처럼 Coupon 클래스에서 Item 클래스의 값을 구한 뒤 할인되는 큼액을 계산할 수 있을 것이다.
+
+```java
+public class Coupon {
+  public int calculateDiscountAmount(Item item) {
+    return item.getPrice() * discountRate;
+  }
+}
+```
+
+그런데 특수 Item은 무조건 할인을 해주지 않는 정책이 추가되어, 이를 위해 Item 클래스를 상속받는 SpecialItem 클래스를 추가했다고 하자.
+
+Coupon 클래스의 calculateDiscountAmount\(\) 메서드는 item 객체의 실제 타입이 SpecialItem인 경우 할인 액수를 0으로 처리해 주어야 하는데, 이를 반영하기 위해 Coupon 클래스를 다음과 같이 수정할 수 있을 것이다.
+
+```java
+public class Coupon {
+  public int calculateDiscountAmount(Item item) {
+    if (item instanceof SpecialItem) { // LSP 위반 발생
+      return 0;
+    }
+
+    return item.getPrice() * discountRate;
+  }
+}
+```
+
+위 코드는 아주 흔한 리스코프 치환 원칙 위반 사례이다. Item 타입을 사용하는 코드는 SpecialItem 타입이 존재하는지 알 필요 없이 오직 Item 타입만 사용해야 한다.
+
+그런데, 위 코드는 instanceof 연산자를 사용해서 SpecialItem 타입인지의 여부를 확인하고 있다. 즉, 하위 타입인 SpecialItem이 상위 타입인 Item을 완벽하게 대체하지 못하는 상황이 발생하고 있는 것이다.
+
+타입을 확인하는 기능\(자바의 instanceof 연산자\)을 사용하는 것은 전형적인 리스코프 치환 원칙을 위반할 때 발생하는 증상이다. 클라이언트가\(Coupon 클래스\) instanceof 연산자를 사용한다는 것은 상위 타입\(Item 클래스\)만을 사용해서 프로그래밍 할 수 없다는 것을 의미한다.
+
+리스코프 치환 원칙을 어기게 된 이유는 Item에 대한 추상화가 덜 되었기 때문이다.
+
+상품의 가격 할인 가능 여부가 Item 및 하위 타입에서 변화되는 부분이 되며, 변화되는 부분을 Item 클래스에 추가함으로써 리스코프 치환 원칙을 지킬 수 있게 된다.
+
+```java
+public class Item {
+
+  // 변화되는 기능을 상위 타입에 추가
+  public boolean isDiscountAvailable() {
+    return true;
+  }
+  ...
+}
+
+public class SpecialItem extends Item {
+  // 하위 타입에서 알맞게 오버라이딩
+  @Override
+  public boolean isDiscountAvailable() {
+    return false;
+  }
+}
+```
+
+위 코드에서 Item 클래스에 가격 할인 능 여부를 판단하는 기능을 추가하고, SpecialItem 클래스는 이 기능을 알맞게 재정의했다.
+
+변화되는 부분을 상위 타입에 추가함으로써, instanceof 연산자를 사용하던 코드를 Item 클래스으로만 구현할 수 있게 되었다.
+
+```java
+public class Coupon {
+  public int calculateDiscountAmount(Item item) {
+    if(! item.isDiscountAvailable()) {  // instanceof 연산자 사용 제거
+      return 0;
+    }
+
+    return item.getPrice() * discountRate;
+  }
+}
+```
+
+예를 통해서 봤듯이, 리스코프 치환 원칙이 위반되면 개방 폐쇄 원칙도 지킬 수 없게 된다.  
+개방 폐쇄 원칙을 지키지 않으면 기능 확장을 위해 더 많은 부분을 수정해야 하므로, 리스코프 치환 원칙을 위반하면 기능 확장에 어려움을 겪게 된다.
 
