@@ -312,3 +312,46 @@ worker.run() // jobQueue, transcoder 이 null 이므로 익셉션 발생
 객체를 생성한 이후에 설정할 수 있기 때문에, 어떤 이유로 인해 의존할 객체가 나중에 생성된다면 설정 메서드 방식을 사용해야 한다.  
 또, 의존할 객체가 많을 경우, 이름을 통해서 어떤 객체가 설정되는 보다 쉽게 알수 있어 가독성을 높여 주는 효과를 얻을 수 있다.
 
+## 3. 서비스 로케이터의 단점
+
+서비스 로케이터의 가장 큰 단점은 동일 타입의 객체가 다수 필요할 경우, 각 개체 별로 제공 메서드를 만들어 주어야 한다는 점이다.
+
+예를 들어, FileJobQueue 객체와 DbJobQueue 객체가 서로 다른 부분에 함께 사용되어야 한다면
+
+```java
+public class ServiceLocator {
+    public JobQueue getJobQueue1() { ... }
+    public JobQueue getJobQueue2() { ... }
+}
+```
+
+이름부터 마음에 안드는데..?  
+그렇다고 해서 이름을 File 이나 Db 같은 단어를 붙이게 되면 콘크리트 클래스에 직접 의존하는 것과 동일한 효과를 발생시킨다.
+
+```java
+public class Worker {
+    private boolean someCondition;
+    
+    public void run() {
+        JobQueue jobQueue = someCondition ?
+            ServiceLocator.getFileJobQueue() : ServiceLocator.getDbJobQueue();
+        ...
+    }
+}
+```
+
+만약 다른 JobQueue 구현 객체가 추가되면 위 코드도 함께 수정되어야 한다. OCP 원칙 파괴...
+
+그렇다면 DI를 사용하면?
+
+```java
+Worker worker1 = new Worker();
+worker1.setJobQueue(new FileJobQueue());
+
+Worker worker2 = new Worker();
+worker2.setJobQueue(new DbJobQueue());
+```
+
+이렇듯 서비스 로케이터는 변경의 유연함을 떨어뜨리는 문제를 갖고 있기 때문에,  
+부득이란 상황이 아니라면 DI를 사용하도록 하자.
+
