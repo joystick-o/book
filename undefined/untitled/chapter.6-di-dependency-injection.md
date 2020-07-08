@@ -99,7 +99,7 @@ public class JobCLI {
 }
 ```
 
-![&#xD328;&#xD0A4;&#xC9C0; &#xAC04; &#xC21C;&#xD658; &#xC758;&#xC874;&#xC744; &#xBC1C;&#xC0DD;&#xC2DC;&#xD0A4;&#xC9C0; &#xC54A;&#xB3C4;&#xB85D; &#xD568;](../../.gitbook/assets/image%20%2835%29.png)
+![&#xD328;&#xD0A4;&#xC9C0; &#xAC04; &#xC21C;&#xD658; &#xC758;&#xC874;&#xC744; &#xBC1C;&#xC0DD;&#xC2DC;&#xD0A4;&#xC9C0; &#xC54A;&#xB3C4;&#xB85D; &#xD568;](../../.gitbook/assets/image%20%2836%29.png)
 
 그렇다면 Locator를 초기화하고, JobCLI와 Worker 객체를 생성하고 실행해 주는 역할은 누가 하는가?  
 바로 메인\(main\)영역에서 하는 일이다.
@@ -155,4 +155,160 @@ public class Worker {
     }
 }
 ```
+
+콘크리트 클래스를 직접 사용해서 객체를 생성하게 되면 의존 역전 원칙을 위반하게 되며,  
+결과적으로 확장 폐쇄 원칙을 위반하게 된다.
+
+이런 단점을 보완하기 위한 방법이 DI \( 의존주입 \) 이다.  
+DI는 필요한 객체를 직접 생성하거나 찾지 않고 외부에서 넣어 주는 방식이다.
+
+```java
+public class Worker {
+    private JobQueue jobQueue;
+    private Transcoder transcoder;
+    
+    // 외부에서 사용할 객체를 전달받을 수 는 방법 제
+    public Worker(JobQueue jobQueue, Transcoder transcoder) {
+        this.jobQueue = jobQueue;
+        this.transcoder = transcoder;
+    }
+    
+    public void run() {
+        while (someRunningCondition) {
+            JobData jabData = jobQueue.getJob();
+            transcoder.transcode(jobData.getSource(), jobData.getTarget());
+        }
+    }
+}
+```
+
+생성자를 이용해 의존 객체를 전달받도록 구현하면 main 클래도 변경할 수 있다.
+
+```java
+public class Main {
+    public static void Main(String[] args) {
+        // 상위 수준 모듈인 transcoder 패키지에서 사용할 
+        // 하위 수준 모듈 객체 생성
+        JobQueue jobQueue = new FileJobQueue();
+        Transcoder transcoder = new FfmpegTranscoder();
+        
+        // 상위 수준 모듈 객체를 생성하고 실행
+        final Worker worker = new Worker(jobQueue, transcoder);
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                worker.run();
+            }
+        });
+        JobCLI cli = new JobCLI(jobQueue);
+        cli.interact();
+    }
+}
+```
+
+여기서 중요한 점은 Worker나 JobCLI 객체가 스스로 의존하는 객체를 찾거나 생성하지 않고 main\(\)메서드에서 생성자를 통해 이들이 사용할 객체를 주입한다는 점이다. 때문에 이런 방식을 의존 주입이라고 부르는 것이다.
+
+만약 main에서 하위 의존 모듈을 생성하고 주입하는 역할을 따로 조립기의 역할로 뺀다면 나중에 변경의 유연함을 얻을 수 있다.
+
+```java
+public class Assembler {
+    public void createAndWire() {
+        JobQueue jobQueue = new FileJobQueue();
+        Transcoder transcoder = new FfmpegTranscoder();
+        this.worker = new Worker(jobQueue, transcoder);
+        this.jobCLI = new JobCLI(jobQueue);
+    }
+    public Worker getWorker() {
+        return this.worket;
+    }
+    public JobCLI getJobCLI() {
+        return this.jobCLI;
+    }
+    ...
+}
+```
+
+Assembler 클래스에서 객체를 생성하고 생성자를 이용해 의존 객체를 전달해 주고 있다.  
+이제 Main 클래스는 Assembler 에게 객체 생성과 조립 책임을 위임한 뒤에 Assembler 가 생성한 Worker 객체와 JobCLI 객체를 구하는 방식으로 변경된다.
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Assembler assembler = new Assembler();
+        assembler.createAndWire();
+        final Worker worker = assembler.getWorker();
+        JobCLI jobCli = assembler.getJobCli();
+        ...
+    }
+}
+```
+
+### 2.1 생성자 방식과 설정 메서드 방식
+
+생성자 방식은 생성자를 통해서 의존 객체를 전달받는 방식이다.  
+그것이 생성자 방식이니까
+
+설정 메서드 방
+
+```java
+public class Worker {
+    private JobQueue jobQueue;
+    private Transcoder transcoder;
+    
+    public void setJobQueue(JobQueue jobQueue) {
+        this.jobQueue = jobQueue
+    }
+    public void setTransCoder(TransCoder transCoder) {
+        this.transCoder= transCoder
+    }
+    
+    public void run() {
+        while (someRunningCondition) {
+            JobData jabData = jobQueue.getJob();
+            transcoder.transcode(jobData.getSource(), jobData.getTarget());
+        }
+    }
+}
+```
+
+#### 각 방식의 장단점
+
+생성자 방식은 객체를 생성하는 시점에 필요한 모든 의존 객체를 준비할 수 있다.  
+때문에, 객체를 생성하는 시점에서 의존 객체가 정상인지 확인할 수 있다.
+
+```java
+public class JobCLI { 
+    private JobQueue jobQueue;
+    
+    public JobCLI(JobQueue jobQueue) {
+        if (jobQueue == null) throw new IllegalArgumentException();
+        this.jobQueue = jobQueue;
+    }
+}
+```
+
+```java
+// 정상 생성
+JobCLI jobCli = new JobCLI(jobQueue);
+jobCli.interact(); // jobQueue 의존 객체가 존재함
+
+// 비정상 생성인 경우
+JobCLI jobCli = new JobCLI(null); // 익셉션 발생
+jobCli.interact(); // 노실행
+```
+
+의존 객체를 먼저 생성할 수 없다면 생성자 방식을 사용할 수 없다.
+
+설정 메서드 방식은 객체를 생성한 뒤에 의존 객체를 주입하게 된다.
+
+```java
+Worker worker = new Worker();
+// 의존 객체를 설정하지 않음
+// worker.setJobQueue(jobQueue);
+// worker.setTranscoder(transcoder);
+
+worker.run() // jobQueue, transcoder 이 null 이므로 익셉션 발생
+```
+
+객체를 생성한 이후에 설정할 수 있기 때문에, 어떤 이유로 인해 의존할 객체가 나중에 생성된다면 설정 메서드 방식을 사용해야 한다.  
+또, 의존할 객체가 많을 경우, 이름을 통해서 어떤 객체가 설정되는 보다 쉽게 알수 있어 가독성을 높여 주는 효과를 얻을 수 있다.
 
