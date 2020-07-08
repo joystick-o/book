@@ -10,4 +10,5 @@
   * [Chapter.3 다형성과 추상 타입](undefined/untitled/chapter.3.md)
   * [Chapter.4 재사용: 상속보단 조립](undefined/untitled/chapter.4.md)
   * [Chapter.5 설계 원칙: SOLID](undefined/untitled/chapter.5-solid.md)
+  * [Chapter.6 DI\(Dependency Injection\)와 서비스 로케이터](undefined/untitled/chapter.6-di-dependency-injection.md)
 
