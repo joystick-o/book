@@ -143,3 +143,16 @@ Worker객체와 JobCLI 객체는 Locator를 이용해서 필요한 객체를 가
 
 서비스 로케이터 방식은 몇가니 단점이 존재하는데, 그래서 외부에서 사용할 객체를 주입해주는 DI\(Dependency Injection\) 방식을 사용하는 것이 더 일반적이다.
 
+## 2. DI\(Dependency Injection\)을 이용한 의존 객체 사용
+
+사용할 객체를 직접 생성할 경우, 아래 코드처럼 콘크리트 클래스에 대한 의존이 발생하게 된다.
+
+```java
+public class Worker {
+    public void run() {
+        JobQueue jobQueue = new FileJobQueue();
+        ...
+    }
+}
+```
+
