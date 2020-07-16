@@ -12,5 +12,5 @@ Chapter.5 설계 원칙: SOLID
 
 Chapter.6 DI \(Dependency Injection\)와 서비스 로케이터
 
-Chapter.7 주요 디자인 패
+Chapter.7 주요 디자인 패턴
 
