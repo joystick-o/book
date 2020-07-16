@@ -15,4 +15,5 @@
     * [전략\(Strategy\) 패턴](undefined/untitled/chapter.7/strategy.md)
     * [템플릿 메서드\(Template Method\) 패턴](undefined/untitled/chapter.7/template-method.md)
     * [상태\(State\) 패턴](undefined/untitled/chapter.7/state.md)
+    * [데코레이터\(Decorator\) 패턴](undefined/untitled/chapter.7/decorator.md)
 
