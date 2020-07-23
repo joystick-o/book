@@ -10,8 +10,6 @@
 
 클라이언트가 요구하는 인터페이스\(SerachService\)와 재사용하려는 모듈\(TolrClient\)가 일치하지 않을 때 사용할 수 있는 패턴이 어댑터 패턴이다.
 
- 
-
 ![](../../../.gitbook/assets/image%20%2847%29.png)
 
 어댑터에 해당하는 SearchServiceTolrAdapter 클래스는 TolrClient를 SearchService 인터페이스에 맞춰 주는 책임을 갖는다.
