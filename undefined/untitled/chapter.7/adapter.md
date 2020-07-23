@@ -2,17 +2,17 @@
 
 게시판 통합 검색기능을 DB를 이용해 구현했다.
 
-![](../../../.gitbook/assets/image%20%2848%29.png)
+![](../../../.gitbook/assets/image%20%2849%29.png)
 
 검색 속도 성능에 문제가 발생해서 Tolr 라는 오픈 소스 검색 서버를 도입하기로 했다.
 
-![](../../../.gitbook/assets/image%20%2842%29.png)
+![](../../../.gitbook/assets/image%20%2843%29.png)
 
 클라이언트가 요구하는 인터페이스\(SerachService\)와 재사용하려는 모듈\(TolrClient\)가 일치하지 않을 때 사용할 수 있는 패턴이 어댑터 패턴이다.
 
  
 
-![](../../../.gitbook/assets/image%20%2846%29.png)
+![](../../../.gitbook/assets/image%20%2847%29.png)
 
 어댑터에 해당하는 SearchServiceTolrAdapter 클래스는 TolrClient를 SearchService 인터페이스에 맞춰 주는 책임을 갖는다.
 
