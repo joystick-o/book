@@ -79,5 +79,25 @@ public class StatusChecker extends StatusSubject {
 }
 ```
 
+```java
+public interface StatusObserver {
+    void onAbnormalStatus(Status status);
+}
+```
 
+```java
+public class StatusEmailSender implements StatusObserver {
+    
+    @Override
+    public void onAbnormalStatus(Status status) {
+        sendEmail(status);
+    }
+    
+    private void sendEmail(Status status) {
+        ...// 이메일 전송 코드
+    }
+}
+```
+
+옵저버 패턴을 적용할 때의 장점은 주제 클래스 변경 없이 상태 변경을 통지 받을 옵저버를 추가할 수 있다는 점이다.
 
