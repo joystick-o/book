@@ -30,7 +30,7 @@ public class Calculator {
 
 위와 같은 문제를 해결하기 위한 방법 중 하나는 아래 그림처럼 가격 할인 정책을 별도 객체로 분리하는 것이다.
 
-![](../../../.gitbook/assets/image%20%2838%29.png)
+![](../../../.gitbook/assets/image%20%2839%29.png)
 
 DiscountStrategy 인터페이스는 상품의 할인 정책을 추상화하였고, 각 콘크리트 객체는 상황에 맞는 할인 계산 알고리즘을 제공한다. Caculator 객체는 가격 합산 계산의 책임을 가진다. 가격 할인 알고리즘을 추상화하고 있는 DiscountStrategy를 **전략\(Strategy\)** 이라 부르고 가격 계산 기능의 책임을 갖고 있는 Calculator를 **콘텍스트\(Context\)** 라 부른다. 이렇게 특정 콘텍스트에서 각 알고리즘을 별도로 분리하는 설계 방법이 **전략 패턴** 이다.
 
