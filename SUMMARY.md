@@ -21,4 +21,5 @@
     * [옵저버\(Observer\) 패턴](undefined/untitled/chapter.7/observer.md)
 * [코틀린 쿡북](undefined/undefined/README.md)
   * [4장 함수형 프로그래밍](undefined/undefined/4.md)
+  * [6장 시퀀스](undefined/undefined/6.md)
 
