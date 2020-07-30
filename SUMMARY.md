@@ -19,4 +19,6 @@
     * [프록시\(Proxy\) 패턴](undefined/untitled/chapter.7/proxy.md)
     * [어댑터\(Adapter\) 패턴](undefined/untitled/chapter.7/adapter.md)
     * [옵저버\(Observer\) 패턴](undefined/untitled/chapter.7/observer.md)
+* [코틀린 쿡북](undefined/undefined/README.md)
+  * [4장 함수형 프로그래밍](undefined/undefined/4.md)
 
