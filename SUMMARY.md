@@ -22,4 +22,5 @@
 * [코틀린 쿡북](undefined/undefined/README.md)
   * [4장 함수형 프로그래밍](undefined/undefined/4.md)
   * [6장 시퀀스](undefined/undefined/6.md)
+  * [7장 영역 함수](undefined/undefined/7.md)
 
