@@ -32,4 +32,5 @@
   * [1. 도메인 모델 시작](undefined/ddd-start/1..md)
   * [2. 아키텍쳐 개요](undefined/ddd-start/2..md)
   * [3. 애그리거트](undefined/ddd-start/3..md)
+  * [4. 리포지터리와 모델 구현\(JPA 중심\)](undefined/ddd-start/4.-jpa.md)
 
