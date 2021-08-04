@@ -33,8 +33,6 @@
   * [2. 아키텍쳐 개요](undefined/ddd-start/2..md)
   * [3. 애그리거트](undefined/ddd-start/3..md)
   * [4. 리포지터리와 모델 구현\(JPA 중심\)](undefined/ddd-start/4.-jpa.md)
-* [클린 코드](undefined/undefined-2.md)
 * [클린 코드](undefined/undefined-2-1/README.md)
-  * [1장 깨끗한 코드](undefined/undefined-2-1/1.md)
   * [1장 깨끗한 코드](undefined/undefined-2-1/1-1.md)
 
