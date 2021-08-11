@@ -35,4 +35,5 @@
   * [4. 리포지터리와 모델 구현\(JPA 중심\)](undefined/ddd-start/4.-jpa.md)
 * [클린 코드](undefined/undefined-2-1/README.md)
   * [1장 깨끗한 코드](undefined/undefined-2-1/1-1.md)
+  * [2장 의미 있는 이름](undefined/undefined-2-1/2.md)
 
