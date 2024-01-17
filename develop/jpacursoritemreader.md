@@ -51,11 +51,11 @@ public ItemProcessor<EventEntity, Event> eventIssueCheckItemProcessor() {
 
 <div data-full-width="true">
 
-<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 </div>
 
-<figure><img src="../.gitbook/assets/image (2).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
 
 쿼리도 잘 실행 됐는데..?
 
@@ -67,7 +67,7 @@ public ItemProcessor<EventEntity, Event> eventIssueCheckItemProcessor() {
 
 <div align="left">
 
-<figure><img src="../.gitbook/assets/image (3).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (4).png" alt=""><figcaption></figcaption></figure>
 
 </div>
 

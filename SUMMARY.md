@@ -4,6 +4,7 @@
 
 ## 개발 리뷰 <a href="#develop" id="develop"></a>
 
+* [Intellij debug exception break](develop/intellij-debug-exception-break.md)
 * [EDA ( 이벤트 기반 아키텍처 )](develop/eda.md)
 * [JpaCursorItemReader](develop/jpacursoritemreader.md)
 
