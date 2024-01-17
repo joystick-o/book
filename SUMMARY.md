@@ -5,6 +5,7 @@
 ## 개발 리뷰 <a href="#develop" id="develop"></a>
 
 * [EDA ( 이벤트 기반 아키텍처 )](develop/eda.md)
+* [JpaCursorItemReader](develop/jpacursoritemreader.md)
 
 ## 책 리뷰
 
