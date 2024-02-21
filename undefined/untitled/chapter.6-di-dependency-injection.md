@@ -12,7 +12,7 @@
 * 변환 요청 정보 저장 : 파일에 보관한다. 또는 DB에 보관한다.
 * 변환 처리 : ffmpeg을 사용한다. 또는 솔루션을 사용한다.
 
-![](<../../.gitbook/assets/image (17).png>)
+![](<../../.gitbook/assets/image (22).png>)
 
 
 
@@ -99,7 +99,7 @@ public class JobCLI {
 }
 ```
 
-![패키지 간 순환 의존을 발생시키지 않도록 함](<../../.gitbook/assets/image (23).png>)
+![패키지 간 순환 의존을 발생시키지 않도록 함](<../../.gitbook/assets/image (28).png>)
 
 그렇다면 Locator를 초기화하고, JobCLI와 Worker 객체를 생성하고 실행해 주는 역할은 누가 하는가?\
 바로 메인(main)영역에서 하는 일이다.
@@ -135,7 +135,7 @@ public class Main {
 }
 ```
 
-![](<../../.gitbook/assets/image (31).png>)
+![](<../../.gitbook/assets/image (36).png>)
 
 어플리케이션 영역에서 사용할 하위 수준의 모듈을 변경하고 싶다면 메인영역을 수정하면 된다. 예를 들어 FileJobQueue 객체 대신 DbJobQueue 객체를 사용하고 싶다면 FileJobQueue 대신 DbJobQueue 객체를 생성하고 조립해 주면 된다.
 

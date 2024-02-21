@@ -38,7 +38,7 @@ display() 메서드는 loadHtml()에서 읽어 온 HTML 응답 문자열을 upda
 
 DataViewer를 잘 사용하고 있는 도중에 데이터를 제공하는 서버가 HTTP 프로토콜에서 소켓 기반의 프로토콜로 변경되고 응답 데이터는 byte 배열을 제공한다.
 
-![](<../../.gitbook/assets/image (13).png>)
+![](<../../.gitbook/assets/image (18).png>)
 
 위의 그림과 같이, 연쇄적인 코드 수정은 두 개의 책임\
 데이터 읽는 책임\
@@ -47,7 +47,7 @@ DataViewer를 잘 사용하고 있는 도중에 데이터를 제공하는 서버
 
 데이터 읽기와 데이터를 화면에 보여주는 책임을 두 개의 객체로 분리하고 둘 간에 주고받을 데이터를 저수준의 String이 아닌 알맞게 추상화된 타입을 사용하 코드가 변경되는  상황을 막을 수 있다.
 
-![](<../../.gitbook/assets/image (51).png>)
+![](<../../.gitbook/assets/image (56).png>)
 
 단일 책임 원칙을 어길 때 발생하는 또 다른 문제점은 재사용을 어렵게 한다는 것이다.
 
@@ -57,11 +57,11 @@ HttpClient 패키지와 GuiComp 패키지가 각각 별도의 jar 파일로 제�
 하지만, 실제로는 DataViewer가 GuiComp를 필요로 하므로 GuiComp jar 파일까지 필요하다.\
 사용하지 않는 기능이 의존하는 jar 파일까지 필요한 것이다.
 
-![](<../../.gitbook/assets/image (29).png>)
+![](<../../.gitbook/assets/image (34).png>)
 
 단일 책임 원칙에 따라 책임이 분리되었다면 DataRequiredClient 클래스를 구현할 때에는 데이터를 읽어 오는데 필요한 dataloader 패키지와 HttpClient 패키지만 필요하며, 데이터를 읽어 오는 것과 상관없는 GuiComp 패키지나 datadisplay 패키지는 포함시킬 필요가 없어진다.
 
-![](<../../.gitbook/assets/image (60).png>)
+![](<../../.gitbook/assets/image (65).png>)
 
 ### 1.2 책임이란 변화에 대한 것
 
@@ -73,7 +73,7 @@ HttpClient 패키지와 GuiComp 패키지가 각각 별도의 jar 파일로 제�
 그럼 어떻게 하면 단일 책임 원칙을 지킬수 있을까?\
 바로 메서드를 실행하는 것이 누구인지 확인해 보는 것이다.
 
-![](<../../.gitbook/assets/image (68).png>)
+![](<../../.gitbook/assets/image (73).png>)
 
 GUIApplication 은 display()를 사용하 DataProcessor는 loadData()를 사용한다 해 보자.\
 GUIApplication 이 화면에 표시되는 방식을 변경해야 할 경우, 변경되는 메서즈는 display() 메서드다.\
@@ -87,7 +87,7 @@ GUIApplication 이 화면에 표시되는 방식을 변경해야 할 경우, 변
 * 기능을 변경하거나 확장할 수 있으면서
 * 그 기능을 사용하는 코드는 수정하지 않는다.
 
-![](<../../.gitbook/assets/image (10).png>)
+![](<../../.gitbook/assets/image (15).png>)
 
 메모리에서 byte를 읽어 오는 기능을 추가해야 할 경우, ByteSource 인터페이스를 상속받은 MemoryByteSource 클래스를 구현함으로써 기능 추가가 가능하다. 그리고 새로운 기능이 추가되었지만, 이 새로운 기능을 사용할 FlowController 클래스의 코드는 변경되지 않는다.\
 즉, 기능을 확장 하면서도 기능을 사용하는 기존 코드는 변경되지 않는 것이다.
@@ -153,7 +153,7 @@ ResponseSender 클래스 예제는 템플릿 패턴을 사용한 것이다. 템�
 
 예를 들어, 슈팅 게임을 개발하는 경우 플레이어, 적, 미사일 등을 그리기 위해 아래와 같은 상속 관계를 사용할 수 있다.
 
-![](<../../.gitbook/assets/image (19).png>)
+![](<../../.gitbook/assets/image (24).png>)
 
 그런데, 화면에 이들 캐릭터를 표시해 주는 코드가 다음과 같다면 어떨까?
 
@@ -204,7 +204,7 @@ Enemy 클래스에 새로운 경로 패턴을 추가해야 할 경우 Enemy 클�
 즉, 경로를 추가하는데 Enemy 클래스가 닫혀 있지 않은 것이다.\
 이를 개방 폐쇄 원칙을 따르도록 변경하면, 아래 그림과 같이 경로 패턴을 추상화하고 Enemy에서 추상화 타입을 사용하는 구조로 바뀐다.
 
-![](<../../.gitbook/assets/image (42).png>)
+![](<../../.gitbook/assets/image (47).png>)
 
 Enemy 코드는 PathPattern을 사용하도록 변경된다.
 
@@ -474,11 +474,11 @@ public class Coupon {
 C++로 게시판 모듈을 개발한다고 해보자.\
 게시글 작성, 게시글 목록, 게시글 삭제기능을 모두 제공하는 ArticleService 클래스를 구현할 경우 ArticleService.h 파일에 클래스의 인터페이스 명세가 코딩되고, ArticleService.cpp 파일에는 구현이 코딩될 것이다.
 
-![](<../../.gitbook/assets/image (25).png>)
+![](<../../.gitbook/assets/image (30).png>)
 
 각 UI를 별도 개발 파트에서 구현한다고 할 경우, 최종 실행 파일을 만들려면 각 UI와 ArticleService.cpp를 컴파일한 결과 오브젝트 파일을 만들어 내고, 그 오브젝트 파일들을 링크하게 된다.
 
-![](<../../.gitbook/assets/image (61).png>)
+![](<../../.gitbook/assets/image (66).png>)
 
 ArticleService 클래스의 목록 읽기 기능과 관련된 멤버 함수의 시그니처에 변경이 발생했다고 하자.
 
@@ -498,7 +498,7 @@ ArticleService 클래스는 게시글 목록/작성/삭제에 대한 모든 메�
 
 따라서, ArticleService 인터페이스를 각 클라이언트가 필요로 하는 인터페이스들로 분리함으로써, 각 클라이언트가 사용하지 않는 인터페이스에 변경이 발생하더라도 영향을 받지 않도록 만들어야 한다.
 
-![](<../../.gitbook/assets/image (3) (1).png>)
+![](<../../.gitbook/assets/image (8).png>)
 
 자바 언어를 사용하고 있다면 컴파일을 통해 .class 파일을 생성하면 될 뿐, 링크 과정을 수행하지 않는다. 실제 링크 과정은 자바 가상 머신이 .class 파일을 로딩하는 과정에서 동적으로 발생되기 때문에 개발자가 각 클래스 파일들을 연결하는 링크과정을 직접 해 줄 필요가 없다. 이런 이유로 자바에서는 앞서 봤던 사용하지 않는 인터페이스 변경에 의해 발생하는 소스 재컴파일 문제가 발생하진 않는다.
 
@@ -515,7 +515,7 @@ ArticleService 인터페이스의 변화가 게시글 목록 UI에 영향을 주
 
 각 클라이언트가 사용하는 기능을 중심으로 인터페이스를 분리함으로써, 클라이언트로부터 발생하는 인터페이스 변경의 여파가 다른 클라이언트에 미치는 영향을 최소화할 수 있게 된다.
 
-![](<../../.gitbook/assets/image (8).png>)
+![](<../../.gitbook/assets/image (13).png>)
 
 ## 5. 의존 역전 원칙 (Dependency Inversion Principle)
 
@@ -528,7 +528,7 @@ ArticleService 인터페이스의 변화가 게시글 목록 UI에 영향을 주
 
 이전의 암호화 예제에서 고수준 모듈과 저수준 모듈은 아래와 같이 구분할 수 있다.
 
-![](<../../.gitbook/assets/image (59).png>)
+![](<../../.gitbook/assets/image (64).png>)
 
 ### 5.1 고수준 모듈이 저수준 모듈에 의존할 때의 문제
 
@@ -545,7 +545,7 @@ ArticleService 인터페이스의 변화가 게시글 목록 UI에 영향을 주
 
 이러한 경우, 새로운 쿠폰 구현이 추가되거나 변경될 때마다 가격 계산 모듈이 변경되는 상황을 초래한다.
 
-![](<../../.gitbook/assets/image (4) (1).png>)
+![](<../../.gitbook/assets/image (9).png>)
 
 이런 상황은 프로그램의 변경을 어렵게 만든다. 우리가 원하는 것은 저수준 모듈이 변경되더라도 고수준 모듈은 변경되지 않는 것인데, 이를 위한 원칙이 바로 **의존 역전 원칙**이다.
 
@@ -557,7 +557,7 @@ ArticleService 인터페이스의 변화가 게시글 목록 UI에 영향을 주
 답은..\
 킹갓 추상화
 
-![](<../../.gitbook/assets/image (11).png>)
+![](<../../.gitbook/assets/image (16).png>)
 
 고수준 모듈인 FlowController와 저수준 모듈인 FileDataReader가 모두 추상화 타입인 ByteSource에 의존함으로써, 고수준 모듈의 변경 없이 저수준 모듈을 변경할 수 있는 유연함을 얻게 되었다.&#x20;
 
@@ -593,7 +593,7 @@ ByteSource 인터페이스는 저수준 모듈보다는 고수준 모듈인 Flow
 
 소스 코드 상에서의 의존은 역전되었지만, 런타임에서의 의존은 고수준 모듈의 객체에서 저수준 모듈의 객체로 향한다.
 
-![](<../../.gitbook/assets/image (2) (1).png>)
+![](<../../.gitbook/assets/image (7).png>)
 
 의존 역전 원칙은 소스 코드의 의존을 역전시킴으로써 변경의 유연함을 확보할 수 있도록 만들어 주는 원칙이지, 런타임에서의 의존을 역전시키는 것은 아니다.
 
@@ -602,11 +602,11 @@ ByteSource 인터페이스는 저수준 모듈보다는 고수준 모듈인 Flow
 의존 역전 원칙은 타입의 소유도 역전시킨다.\
 의존 역전 원칙을 적용하기 전, 데이터 읽기 타입은 FileDataReader를 소유한 패키지가 소유하고 있었다.
 
-![](<../../.gitbook/assets/image (71).png>)
+![](<../../.gitbook/assets/image (76).png>)
 
 그런데, 의존 역전 원칙을 적용함으로써 아래와 같이 데이터 읽기 기능을 위한 타입을 고수준 모듈이 소유하게 된다.
 
-![](<../../.gitbook/assets/image (63).png>)
+![](<../../.gitbook/assets/image (68).png>)
 
 타입의 소유 역전은 각 패키지를 독립적으로 배포할 수 있도록 만들어 준다. (독립적으로 배포한다는 건 jar 파일이나 DDL 등의 파일로 배포한다는 것을 뜻한다.)
 
@@ -614,13 +614,13 @@ ByteSource 인터페이스는 저수준 모듈보다는 고수준 모듈인 Flow
 
 이 경우 배포 기준이 되는 패키지는 아래와 같이 별도의 jar 파일로 만들어질 수 있을 것이며, 기존의 filedata.jar 파일을 socketdata.jar 파일로 교체함으로써 데이터를 파일에서 소켓으로부터 읽어 오도록 변경하 수 있게 된다.
 
-![](<../../.gitbook/assets/image (43).png>)
+![](<../../.gitbook/assets/image (48).png>)
 
 만약 타입의 소유가 고수준 모듈로 이동하지 않고 filedata 패키지에 그대로 있었다면 어떻게 될까?
 
 이 경우 패키지 구조는 아래와 같이 구성이 되고, 기존 파일 구현 대신 소켓 구현을 사용하게 되면 socketdata.jar 뿐만 아니라 기능상 필요없는 filedata.jar도 필요하게 된다.
 
-![](<../../.gitbook/assets/image (67).png>)
+![](<../../.gitbook/assets/image (72).png>)
 
 따라서 의존 역전 원칙은 개방 폐쇄 원칙을 클래스뿐만 아니라 패키지 수준까지 확장시켜 주는 디딤돌이 된다.
 

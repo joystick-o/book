@@ -6,7 +6,7 @@
 
 * [Intellij debug exception break](develop/intellij-debug-exception-break.md)
 * [EDA ( 이벤트 기반 아키텍처 )](develop/eda.md)
-* [JpaCursorItemReader](develop/jpacursoritemreader.md)
+* [JpaCursorItemReader ( jpql 쿼리)](develop/jpacursoritemreader-jpql.md)
 
 ## 책 리뷰
 

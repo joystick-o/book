@@ -2,12 +2,12 @@
 
 제품 목록을 구성할 때 관련된 모든 이미지를 로딩하도록 구현할 수 있는데, 이 경우 불필요하게 메모리를 사용하는 문제가 발생할 수 있다.
 
-![](<../../../.gitbook/assets/image (50).png>)
+![](<../../../.gitbook/assets/image (55).png>)
 
 그렇다면 이미지가 실제로 화면에 보여질 때 데이터를 로딩한다면 문제가 해결된다.\
 프록시 패턴은 실제 객체를 대신하는 프록시 객체를 사용해서 실제 객체의 생성이나 접근 등을 제어할 수 있도록 해주는 패턴이다.
 
-![](<../../../.gitbook/assets/image (57).png>)
+![](<../../../.gitbook/assets/image (62).png>)
 
 ```java
 public class ProxyImage Implements Image {
