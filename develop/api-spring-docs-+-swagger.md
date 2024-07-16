@@ -248,7 +248,9 @@ stage('test')
 </html>
 ```
 
+swagger-ui 스크립트를 받고
 
+config.json 에서 도메인별로 문서들을 묶어줄 수 있다.
 
 ### config.json
 
@@ -266,9 +268,9 @@ stage('test')
 
 
 
-config.json 에서 문서별로 정리를 해주고
 
-swagger-ui 스크립트를 열어주면
+
+그리고 html 파일을 열어주면
 
 <figure><img src="../.gitbook/assets/image (86).png" alt=""><figcaption></figcaption></figure>
 
