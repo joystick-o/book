@@ -90,7 +90,7 @@ test 단계를 거쳐 build/generated-snippets 에 snippets 들이 생성된다.
 
 
 
-swagger 문서해서 테스트를 하기 위한 url로 setServer("http://settlement-api.com") 를 사용하고
+swagger 문서 내 테스트를 하기 위한 url로 setServer("http://settlement-api.com") 를 사용하고
 
 yaml 형식의 파일로 생성된다.
 
