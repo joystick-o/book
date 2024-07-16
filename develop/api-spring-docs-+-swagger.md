@@ -169,9 +169,7 @@ class SettlementControllerTest {
 
 먼저 yaml 문서를 만들어 한곳에 모으는 작업이 필요하다.
 
-그 작업을 나는 jenkins 에서 하기로 했는데
-
-test 라는 단계를 만들어서 파일을 만들고 한곳에 모으는 작업을 하기로 했다.
+그 작업을 나는 jenkins 를 통해 test 라는 단계를 만들어 실행하기로 했다.
 
 <div data-full-width="false">
 
