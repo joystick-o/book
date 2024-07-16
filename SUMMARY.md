@@ -5,7 +5,7 @@
 ## 개발 리뷰 <a href="#develop" id="develop"></a>
 
 * [Intellij debug exception break](develop/intellij-debug-exception-break.md)
-* [EDA ( 이벤트 기반 아키텍처 )](develop/eda/README.md)
+* [EDA ( 이벤트 기반 아키텍처 )](develop/eda.md)
   * [개발/운영 후기](develop/eda/undefined.md)
 * [JpaCursorItemReader ( jpql 쿼리)](develop/jpacursoritemreader-jpql.md)
 * [API 문서 통합하기 (spring docs + swagger)](develop/api-spring-docs-+-swagger.md)

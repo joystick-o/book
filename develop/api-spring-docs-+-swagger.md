@@ -198,8 +198,78 @@ stage('test')
 
 실서버가 아닌 테스트 서버에서만 작업을 실행하도록 하고
 
-aws 의 파일 저장소인 s3 에 파일을 취합한다.
+생성된 문서를 aws 의 파일 저장소인 s3 에 파일을 취합한다.
 
 
 
 ## swagger-ui
+
+그럼 취합된 문서들을 이쁜 swagger ui 로 만들어주자.
+
+### index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.17.14/swagger-ui.css">
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <script src="https://unpkg.com/swagger-ui-dist@5.17.14/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.17.14/swagger-ui-standalone-preset.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        window.onload = function () {
+            axios.get('config.json')
+                .then(function(res) {
+                    const config = res.data;
+                    console.log(config);
+                    window.ui = SwaggerUIBundle({
+                        dom_id: "#swagger-ui",
+                        deepLinking: true,
+                        presets: [
+                            SwaggerUIBundle.presets.apis,
+                            SwaggerUIStandalonePreset
+                        ],
+                        plugins: [
+                            SwaggerUIBundle.plugins.DownloadUrl
+                        ],
+                        layout: "StandaloneLayout",
+                        urls: config.shop
+                    })
+                })
+        }
+    </script>
+</body>
+</html>
+```
+
+
+
+### config.json
+
+```json
+{
+  "shop": [
+    {"url": "spec/settlement.yaml", "name": "settlement-api"},
+    {"url": "spec/order.yaml", "name": "order-api"}
+  ],
+  "internal": [
+    {"url": "spec/internal.yaml", "name": "internal-api"}
+  ]
+}
+```
+
+
+
+config.json 에서 문서별로 정리를 해주고
+
+swagger-ui 스크립트를 열어주면
+
+<figure><img src="../.gitbook/assets/image (86).png" alt=""><figcaption></figcaption></figure>
+
+깔끔한 외모로 탄생한 문서를 확인할 수 있다.

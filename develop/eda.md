@@ -46,7 +46,7 @@ AWS 의 SQS를 이미 사용하고 있는 서비스가 있기 때문에
 
 SNS / SQS 조합을 이용해서 이벤트를 발행/구독 서비스를 구성한다.
 
-<figure><img src="../../.gitbook/assets/image (80).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (80).png" alt=""><figcaption></figcaption></figure>
 
 주문 서비스에서는 주문완료 이벤트가 발생하면 주문완료 토픽으로 SNS에 메세지를 발행한다.
 
@@ -70,7 +70,7 @@ SQS 에서는 메세지를 전달받아 이벤트를 처리한다.
 
 ### Transactional Outbox Pattern <a href="#transactional-outbox-pattern" id="transactional-outbox-pattern"></a>
 
-<figure><img src="../../.gitbook/assets/image (81).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (81).png" alt=""><figcaption></figcaption></figure>
 
 Transactional Outbox Pattern 은 이벤트에 대한 상태를 OUTBOX 테이블에 저장하고
 
@@ -82,7 +82,7 @@ Relay 배치에서 새로 저장된 데이터를 발행하는 구현방식
 
 이벤트 발행과 이벤트 저장을 동시에 진행하고 싶어서 찾아봄.
 
-<figure><img src="../../.gitbook/assets/image (82).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (82).png" alt=""><figcaption></figcaption></figure>
 
 주문 완료 상태변경 transaction 과 이벤트 저장 transaction 을 묶어서 이벤트의 발행을 보장할 수 있다.
 
@@ -92,7 +92,7 @@ Relay 배치에서 새로 저장된 데이터를 발행하는 구현방식
 
 
 
-<figure><img src="../../.gitbook/assets/image (83).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/image (83).png" alt=""><figcaption></figcaption></figure>
 
 \
 이벤트 발행 시 저장소에 발행여부를 false 로 저장하고
